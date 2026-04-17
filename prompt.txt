@@ -1,0 +1,34 @@
+For my second engagement project, I am actually going to use Git, GitHub, and GitHub Actions. Git and GitHub will be used for the version control and code repositories, and for the CI/CD pipeline implementation, I will be using GitHub Actions.
+
+Since this is a Snowflake data engineering project, I am thinking of using Snowflake's official extension on VS Code editor so that I will be able to create the directory structure as per the requirements,  separate branches and all those things, which are not so highly intuitive in my Snowsight (Snowflake's web interface).
+
+NOTE: majority of the DEVelopment will also be accelerated using the Cortex Code CLI ( Snowflake's Coding Assistant accessed via CLI )
+
+I have taken up a course on Udemy on GitHub Actions and am pretty well-versed with common GitHub Actions terminologies. However, I have never really built a CI/CD pipeline using GitHub Actions for any data engineering project, and specifically data engineering project for that matter.
+
+The project that I am currently working on has been designed in such a way that we are isolating our enviroments at database environment levels. So in my project, I will have DEV database, QA database, and PROD database.
+
+Now, going forward, I will explain you my current understanding of how does the design engineering project and CI/CD ho hand-in-hand.
+
+I am a Snowflake Developer, so most of the code that I will be writing will stick fine to DEV database. For example, if I create a table, if I ingest some data into it, if I create certain transformations and create data flows, I as a developer will create them in the DEV database itself first.
+
+I also understand that if my code and the work that I have done in the DEV database is correct, then the same work or the same tables, data PRODucts, and everything will be replicated into the PROD database as well. So given everything is correct, there still fairly be a one-to-one mapping of let's say PROD.CLEANED.ORDERS would be the same as DEV.CLEANED.ORDERS.
+
+But this progression will not go directly from DEV database to PROD database. Once I make certain changes in DEV, they will go to the QA database, and the QA database does its stuff. And then once everything is passed, then the DEV environment is pretty much replicated into the PROD environment, or let's say database in this scenario because the databases are at this point are environments.
+
+So I know that SQL queries and all the code written in DEV database given it is correct, it will be pretty much replicated to PROD. 
+
+The following part is where I'm struggling:
+
+1. I don't understand what is the exact code or what is the exact work that I will be doing in the QA database.
+2. since we as developers work on only DEV database and then once we commit our changes, then GitHub Actions will take care of moving that to QA and then moving it to PROD, at exactly does happen under the hood and where is the place that I actually have to write code? Do I as a developer have to write code instead of the QA database as well? And one thing is for sure that I won't be writing code directly for the PROD database as well.
+
+So given this entire scenario, I want you to give me a very simple yet highly intuitive, complete in nature, and understandable guide by giving me a demo on a very hypothetical situation. 
+
+Let's say we have three databases again, DEV, QA, and PROD. We have a particular table in the DEV database, let's say tbl_customers. This table will be created or populated data as developers. 
+
+Then I want you to show me the progression that happens afterwards and how GitHub Actions as a CI/CD pipeline would take care of that and what I as a developer should be actually be focusing on. Let's say there are certain cases where customer ID should not be null and some test cases. So how does QA database actually fit into this situation? And once everything is checked and issued through me, how does that changes are pushed to PROD? 
+
+I want you to give me a complete demo such that I totally understand how GitHub CI/CD is actually used to for propagate these changes from DEV to QA to PROD. This is a very simple use case or an example that I want you to teach me using.
+
+This is a very simple example using which I want you to teach me how does GitHub Actions can be used for CI/CD to move the project from DEV to QA to PROD and how can this be particularly done in smoke as well. This has to be a very in-detailed comprehensive guide.
