@@ -19,6 +19,18 @@ HIPAA-compliant healthcare data platform on Snowflake, built via a strict 16-pha
 5. **Document last** — Runbooks reflect the final, verified state. Never document mid-build.
 6. **Ownership stays with SYSADMIN** — Functional roles receive USAGE and operational grants, never ownership of objects. SYSADMIN owns all databases, schemas, warehouses, stages, file formats, and pipeline objects. No exceptions.
 
+--- 
+
+## File Creation Rules
+- Directory structure is pre-created. Never create, rename, or delete folders.
+- Create files only at the exact path specified in the prompt.
+- If a path's parent folder does not exist, stop and ask — do not create it.
+
+---
+
+## Naming Convention
+- [define once, e.g. `NN_snake_case_description.sql`]
+
 ---
 
 ## Non-Negotiable Rules (check these on every code suggestion)
