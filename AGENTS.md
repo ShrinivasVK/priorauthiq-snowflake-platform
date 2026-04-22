@@ -98,12 +98,13 @@ Fully qualified example: `HEALTHCARE_PROD.ANALYTICS.PATIENT_ENCOUNTERS`
 
 | Role | Function |
 |---|---|
-| `DATA_ENGINEER_ROLE` | Pipeline development — ingestion, transformation, task management |
-| `ANALYST_ROLE` | Read-only business consumption on ANALYTICS / AI_READY schemas |
-| `DATA_STEWARD_ROLE` | Governance — classification, tagging, masking policy management |
-| `AUDIT_ROLE` | Read access to HEALTHCARE_AUDIT_DB — no write, no modify |
-| `PHI_ACCESS_ROLE` | Unmasked PHI access — break-glass tier, tightly controlled |
-| `CICD_ROLE` | GitHub Actions service account — deploys objects across environments |
+| `PA_DATA_ENGINEER_ROLE` | Pipeline development — ingestion, transformation, task management |
+| `PA_ANALYST_ROLE` | Read-only business consumption on ANALYTICS schema |
+| `PA_AI_ENGINEER_ROLE` | Cortex AI — builds AI pipelines, semantic views, agent specs |
+| `PA_DATA_STEWARD_ROLE` | Governance — classification, tagging, masking policy management |
+| `PA_AUDIT_ROLE` | Read access to audit DB — no write, no modify |
+| `PA_PHI_ACCESS_ROLE` | Unmasked PHI access — break-glass tier, tightly controlled |
+| `PA_CICD_ROLE` | GitHub Actions service account — deploys objects across environments |
 
 ### Role Hierarchy
 
@@ -112,19 +113,23 @@ ACCOUNTADMIN  (break-glass only — max 2 accounts)
     │
 SECURITYADMIN  (manages roles and grants; no data access)
     │
-    ├── DATA_STEWARD_ROLE  (governance, tagging, masking policy creation)
+    ├── PA_DATA_STEWARD_ROLE  (governance, tagging, masking policy creation)
     │
 SYSADMIN  (owns ALL objects — databases, schemas, warehouses, pipes, tasks)
     │
-    ├── CICD_ROLE  (deploys objects across DEV → QA → PROD; granted to SYSADMIN)
+    ├── PA_CICD_ROLE  (deploys objects across DEV → QA → PROD; granted to SYSADMIN)
     │
-    ├── DATA_ENGINEER_ROLE  (USAGE on ingestion/transform warehouses, CREATE on RAW/TRANSFORMED)
+    ├── PA_DATA_ENGINEER_ROLE  (USAGE on ingestion/transform WHs, CREATE on RAW/CURATED/AI)
     │       │
-    │       └── ANALYST_ROLE  (USAGE on QUERY_WH, SELECT on ANALYTICS/AI_READY)
+    │       └── PA_ANALYST_ROLE  (USAGE on QUERY_WH, SELECT on ANALYTICS)
     │
-    ├── PHI_ACCESS_ROLE  (unmasked PHI; not inherited by any other role)
+    ├── PA_AI_ENGINEER_ROLE  (USAGE on AI_CORTEX_WH, CREATE on AI schema)
+    │       │
+    │       └── PA_ANALYST_ROLE  (inherited — read access on ANALYTICS)
     │
-    └── AUDIT_ROLE  (SELECT on HEALTHCARE_AUDIT_DB only)
+    ├── PA_PHI_ACCESS_ROLE  (unmasked PHI; not inherited by any other role)
+    │
+    └── PA_AUDIT_ROLE  (SELECT on audit DB only — grants deferred to Phase 11)
 ```
 
 ### Ownership & Access Principles
@@ -140,23 +145,29 @@ SYSADMIN  (owns ALL objects — databases, schemas, warehouses, pipes, tasks)
 
 ```sql
 -- Warehouse access (USAGE, never ownership)
-GRANT USAGE ON WAREHOUSE TRANSFORM_WH TO ROLE DATA_ENGINEER_ROLE;
+GRANT USAGE ON WAREHOUSE PA_TRANSFORM_WH TO ROLE PA_DATA_ENGINEER_ROLE;
 
 -- Schema-level operational grants
-GRANT USAGE ON DATABASE HEALTHCARE_PROD TO ROLE DATA_ENGINEER_ROLE;
-GRANT USAGE ON SCHEMA HEALTHCARE_PROD.TRANSFORMED TO ROLE DATA_ENGINEER_ROLE;
-GRANT CREATE DYNAMIC TABLE ON SCHEMA HEALTHCARE_PROD.TRANSFORMED TO ROLE DATA_ENGINEER_ROLE;
+GRANT USAGE ON DATABASE PA_PROD_DB TO ROLE PA_DATA_ENGINEER_ROLE;
+GRANT USAGE ON SCHEMA PA_PROD_DB.CURATED TO ROLE PA_DATA_ENGINEER_ROLE;
+GRANT CREATE DYNAMIC TABLE ON SCHEMA PA_PROD_DB.CURATED TO ROLE PA_DATA_ENGINEER_ROLE;
 
 -- Read-only pattern for analysts
-GRANT USAGE ON DATABASE HEALTHCARE_PROD TO ROLE ANALYST_ROLE;
-GRANT USAGE ON SCHEMA HEALTHCARE_PROD.ANALYTICS TO ROLE ANALYST_ROLE;
-GRANT SELECT ON ALL TABLES IN SCHEMA HEALTHCARE_PROD.ANALYTICS TO ROLE ANALYST_ROLE;
-GRANT SELECT ON FUTURE TABLES IN SCHEMA HEALTHCARE_PROD.ANALYTICS TO ROLE ANALYST_ROLE;
+GRANT USAGE ON DATABASE PA_PROD_DB TO ROLE PA_ANALYST_ROLE;
+GRANT USAGE ON SCHEMA PA_PROD_DB.ANALYTICS TO ROLE PA_ANALYST_ROLE;
+GRANT SELECT ON ALL TABLES IN SCHEMA PA_PROD_DB.ANALYTICS TO ROLE PA_ANALYST_ROLE;
+GRANT SELECT ON FUTURE TABLES IN SCHEMA PA_PROD_DB.ANALYTICS TO ROLE PA_ANALYST_ROLE;
+
+-- AI Engineer pattern
+GRANT USAGE ON WAREHOUSE PA_AI_CORTEX_WH TO ROLE PA_AI_ENGINEER_ROLE;
+GRANT USAGE ON SCHEMA PA_PROD_DB.AI TO ROLE PA_AI_ENGINEER_ROLE;
+GRANT CREATE TABLE ON SCHEMA PA_PROD_DB.AI TO ROLE PA_AI_ENGINEER_ROLE;
 
 -- Hierarchy: lower roles granted to higher roles
-GRANT ROLE ANALYST_ROLE TO ROLE DATA_ENGINEER_ROLE;
-GRANT ROLE CICD_ROLE TO ROLE SYSADMIN;
-GRANT ROLE DATA_STEWARD_ROLE TO ROLE SECURITYADMIN;
+GRANT ROLE PA_ANALYST_ROLE TO ROLE PA_DATA_ENGINEER_ROLE;
+GRANT ROLE PA_ANALYST_ROLE TO ROLE PA_AI_ENGINEER_ROLE;
+GRANT ROLE PA_CICD_ROLE TO ROLE SYSADMIN;
+GRANT ROLE PA_DATA_STEWARD_ROLE TO ROLE SECURITYADMIN;
 ```
 
 ---
@@ -180,7 +191,7 @@ GRANT ROLE DATA_STEWARD_ROLE TO ROLE SECURITYADMIN;
 ## Current Phase
 
 <!-- UPDATE THIS LINE AS YOU PROGRESS -->
-**Currently working on:** Phase 0 — Account Administration
+**Currently working on:** Phase 3 — RBAC Setup
 
 ---
 
