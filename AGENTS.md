@@ -191,7 +191,7 @@ GRANT ROLE PA_DATA_STEWARD_ROLE TO ROLE SECURITYADMIN;
 ## Current Phase
 
 <!-- UPDATE THIS LINE AS YOU PROGRESS -->
-**Currently working on:** Phase 3 — RBAC Setup
+**Currently working on:** Phase 4 — Resource Monitors
 
 ---
 
@@ -199,23 +199,23 @@ GRANT ROLE PA_DATA_STEWARD_ROLE TO ROLE SECURITYADMIN;
 
 Invoke with `$<skill-name>` during a CLI session:
 
-- `$phase-0-account-admin` — account-level config, SSO, network policies
-- `$phase-1-database-structure` — databases, schemas, stages, file formats
-- `$phase-2-warehouse-provisioning` — warehouse creation with auto-suspend
-- `$phase-3-rbac-setup` — roles, hierarchy, grants, user assignment
-- `$phase-4-resource-monitors` — credit budgets and suspension policies
-- `$phase-5-github-cicd` — repo + GitHub Actions pipeline
-- `$phase-6-medallion` — Bronze/Silver/Gold/Platinum Dynamic Tables
-- `$phase-7-ingestion` — Snowpipe, Streams, Tasks
-- `$phase-8-governance` — PHI tagging + masking policy creation
-- `$phase-9-masking-assignment` — attach masking policies to columns
-- `$phase-10-monitoring` — task/DT/stream/warehouse alerting
-- `$phase-11-audit` — immutable audit log + share audit
-- `$phase-12-verification` — end-to-end platform validation
-- `$phase-13-ai-ready-layer` — semantic layer + curated Platinum views
-- `$phase-14-cortex-agents` — agent specs + Snowflake Intelligence
-- `$phase-15-phase-docs` — per-phase runbooks
-- `$phase-16-complete-docs` — architecture + HIPAA compliance pack
+- `$phase-0-account-admin` — account-level config, SSO, network policies ([`.cortex\skills\phase-0-account-admin\SKILL.md`](.cortex\skills\phase-0-account-admin\SKILL.md))
+- `$phase-1-database-structure` — databases, schemas, stages, file formats ([`.cortex\skills\phase-1-database-structure\SKILL.md`](.cortex\skills\phase-1-database-structure\SKILL.md))
+- `$phase-2-warehouse-provisioning` — warehouse creation with auto-suspend ([`.cortex\skills\phase-2-warehouse-provisioning\SKILL.md`](.cortex\skills\phase-2-warehouse-provisioning\SKILL.md))
+- `$phase-3-rbac-setup` — roles, hierarchy, grants, user assignment ([`.cortex\skills\phase-3-rbac-setup\SKILL.md`](.cortex\skills\phase-3-rbac-setup\SKILL.md))
+- `$phase-4-resource-monitors` — credit budgets and suspension policies ([`.cortex\skills\phase-4-resource-monitors\SKILL.md`](.cortex\skills\phase-4-resource-monitors\SKILL.md))
+- `$phase-5-github-cicd` — repo + GitHub Actions pipeline ([`.cortex\skills\phase-5-github-cicd\SKILL.md`](.cortex\skills\phase-5-github-cicd\SKILL.md))
+- `$phase-6-medallion` — Bronze/Silver/Gold/Platinum Dynamic Tables ([`.cortex\skills\phase-6-medallion\SKILL.md`](.cortex\skills\phase-6-medallion\SKILL.md))
+- `$phase-7-ingestion` — Snowpipe, Streams, Tasks ([`.cortex\skills\phase-7-ingestion\SKILL.md`](.cortex\skills\phase-7-ingestion\SKILL.md))
+- `$phase-8-governance` — PHI tagging + masking policy creation ([`.cortex\skills\phase-8-governance\SKILL.md`](.cortex\skills\phase-8-governance\SKILL.md))
+- `$phase-9-masking-assignment` — attach masking policies to columns ([`.cortex\skills\phase-9-masking-assignment\SKILL.md`](.cortex\skills\phase-9-masking-assignment\SKILL.md))
+- `$phase-10-monitoring` — task/DT/stream/warehouse alerting ([`.cortex\skills\phase-10-monitoring\SKILL.md`](.cortex\skills\phase-10-monitoring\SKILL.md))
+- `$phase-11-audit` — immutable audit log + share audit ([`.cortex\skills\phase-11-audit\SKILL.md`](.cortex\skills\phase-11-audit\SKILL.md))
+- `$phase-12-verification` — end-to-end platform validation ([`.cortex\skills\phase-12-verification\SKILL.md`](.cortex\skills\phase-12-verification\SKILL.md))
+- `$phase-13-ai-ready-layer` — semantic layer + curated Platinum views ([`.cortex\skills\phase-13-ai-ready-layer\SKILL.md`](.cortex\skills\phase-13-ai-ready-layer\SKILL.md))
+- `$phase-14-cortex-agents` — agent specs + Snowflake Intelligence ([`.cortex\skills\phase-14-cortex-agents\SKILL.md`](.cortex\skills\phase-14-cortex-agents\SKILL.md))
+- `$phase-15-phase-docs` — per-phase runbooks ([`.cortex\skills\phase-15-phase-docs\SKILL.md`](.cortex\skills\phase-15-phase-docs\SKILL.md))
+- `$phase-16-complete-docs` — architecture + HIPAA compliance pack ([`.cortex\skills\phase-16-complete-docs\SKILL.md`](.cortex\skills\phase-16-complete-docs\SKILL.md))
 
 ---
 
